@@ -1,0 +1,33 @@
+#include<stdio.h>
+typedef long long ll;
+long long a[35][35],b[35][35];
+int tot,p[10005],vis[10005];
+int main()
+{
+for(int i=2;i<=10000;i++)
+{//筛素数
+if(!vis[i])
+{ //未被标记则说明是素数
+p[++tot]=i;
+for(int j=i+i;j<=10000;j+=i)
+vis[j]=1;//标记合数，合数一定含有一个素数因子
+}
+}
+int n,t;
+for(int i=1;i<=30;i++)
+for(int j=1;j<=i;j++)
+if(j==1||i==j) a[i][j]=1;
+else a[i][j]=a[i-1][j-1]+a[i-1][j];//杨辉三角递推
+while(scanf("%d",&n)!=EOF)
+{
+t=0;
+for(int i=1;i<=n;i++)
+for(int j=1;j<=i;j++) b[i][j]=a[i][j];//复制下三角
+for(int i=1;i<=n;i++)
+for(int j=i+1;j<=n;j++) b[i][j]=p[++t];//上三角填充素数
+for(int i=1;i<=n;i++)
+for(int j=1;j<=n;j++)
+printf(j==n?"%lld\n":"%lld ",b[i][j]);
+printf("\n");
+}
+}
